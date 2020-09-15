@@ -15,6 +15,7 @@ class _HomePageState extends State<HomePage> {
   TextEditingController videoURL = new TextEditingController();
   Result _result;
   bool isLoading = false, isLoaded = false;
+  String _value = "mp3";
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +45,28 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         isLoading = true;
       });
-      await API().fetchData(videoURL.text).then((value) {
-        setState(() {
-          _result = value;
-          print(_result.vidTitle);
-          isLoading = false;
-          isLoaded = true;
+      if (videoURL.text.isNotEmpty) {
+        await API().fetchData(videoURL.text, _value).then((value) {
+          setState(() {
+            _result = value;
+            print(_result.vidTitle);
+            isLoading = false;
+            isLoaded = true;
+          });
         });
-      });
+      } else {
+        Toast.show(
+          "URL Boş Olamaz!",
+          context,
+          duration: 2,
+          backgroundColor: Colors.red[300],
+          textColor: Colors.black,
+          gravity: Toast.BOTTOM,
+        );
+        setState(() {
+          isLoading = false;
+        });
+      }
     } catch (e) {
       setState(() {
         isLoading = false;
@@ -85,6 +100,7 @@ class _HomePageState extends State<HomePage> {
           Flexible(
             flex: 1,
             child: TextFormField(
+              autofocus: true,
               controller: videoURL,
               style: TextStyle(color: Colors.white),
               onFieldSubmitted: getData,

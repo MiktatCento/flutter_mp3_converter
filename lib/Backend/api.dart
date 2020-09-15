@@ -23,14 +23,14 @@ class API {
     return null;
   }
 
-  Future<Result> fetchData(String ytUrl) async {
+  Future<Result> fetchData(String ytUrl, String format) async {
     //final querystring = {"stime": "00%3A01%3A00"};
     final headers = {
       'x-rapidapi-host': "download-video-youtube1.p.rapidapi.com",
       'x-rapidapi-key': "26d5f5e1e2mshedcd04dc59ea94fp1fe357jsnbfab3ecb09ba"
     };
     final response = await http.get(
-        'https://download-video-youtube1.p.rapidapi.com/mp3/${convertUrlToId(ytUrl)}',
+        'https://download-video-youtube1.p.rapidapi.com/$format/${convertUrlToId(ytUrl)}',
         headers: headers);
     if (response.statusCode == 200) {
       return Result.fromJson(json.decode(response.body));

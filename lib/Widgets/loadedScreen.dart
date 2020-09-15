@@ -184,7 +184,7 @@ class _LoadedScreenState extends State<LoadedScreen> {
               SizedBox(
                 height: 5.0,
               ),
-              labelTitle("Boyut : ", widget.result.vidInfo["mp3size"]),
+              labelTitle("Boyut : ", widget.result?.vidInfo["mp3size"]),
               SizedBox(
                 height: 8.0,
               ),

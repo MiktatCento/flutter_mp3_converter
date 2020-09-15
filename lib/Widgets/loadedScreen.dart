@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mp3_converter/Backend/api.dart';
 import 'package:flutter_mp3_converter/Models/resultModel.dart';
 import 'package:flutter_mp3_converter/Service/permissionsService.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -54,16 +55,17 @@ class _LoadedScreenState extends State<LoadedScreen> {
           Dio dio = Dio();
           var directory = _storageInfo.first.rootDir + "/Music/";
           print("$directory" + trackName + format);
-          await dio.download(
-            trackURL,
-            "$directory" + trackName + format,
-            /*onReceiveProgress: (rec, total) {
-          setState(() {
-            print("$rec + " + " + $total");
-            progress = "%" + ((rec / total) * 100).toString();
+          await dio.download(trackURL, "$directory" + trackName + format,
+              onReceiveProgress: (rec, total) {
+            Toast.show(
+              API().formatBytes(rec, 2),
+              context,
+              duration: 2,
+              backgroundColor: Colors.green,
+              textColor: Colors.black,
+              gravity: Toast.BOTTOM,
+            );
           });
-        }*/
-          );
 
           setState(() {
             isDownloading = false;
@@ -73,7 +75,7 @@ class _LoadedScreenState extends State<LoadedScreen> {
           Toast.show(
             "İndirildi",
             context,
-            duration: 2,
+            duration: 5,
             backgroundColor: Colors.green,
             textColor: Colors.black,
             gravity: Toast.BOTTOM,
@@ -102,25 +104,6 @@ class _LoadedScreenState extends State<LoadedScreen> {
           gravity: Toast.BOTTOM,
         );
       }
-    }
-
-    void nothingHere() {
-      print("Just Nothing");
-      Toast.show(
-        "Zaten indirildi",
-        context,
-        duration: 2,
-        backgroundColor: Colors.green,
-        textColor: Colors.black,
-        gravity: Toast.BOTTOM,
-      );
-    }
-
-    String _printDuration(Duration duration) {
-      String twoDigits(int n) => n.toString().padLeft(2, "0");
-      String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-      String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-      return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
     }
 
     Widget labelTitle(String title, String inpute) {
@@ -155,7 +138,7 @@ class _LoadedScreenState extends State<LoadedScreen> {
       children: <Widget>[
         Container(
           margin: EdgeInsets.symmetric(horizontal: 20.0),
-          height: MediaQuery.of(context).size.height / 2.3,
+          height: MediaQuery.of(context).size.height / 2.5,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(
@@ -180,8 +163,10 @@ class _LoadedScreenState extends State<LoadedScreen> {
               SizedBox(
                 height: 8.0,
               ),
-              labelTitle("Süre : ",
-                  _printDuration(Duration(seconds: widget.result.duration))),
+              labelTitle(
+                  "Süre : ",
+                  API().printDuration(
+                      Duration(seconds: widget.result.duration))),
               SizedBox(
                 height: 5.0,
               ),
@@ -204,9 +189,11 @@ class _LoadedScreenState extends State<LoadedScreen> {
                 child: FlatButton(
                   onPressed: () {
                     !downloadsuccess
-                        ? downloadVideo(widget.result.vidInfo["dloadUrl"],
-                            widget.result.vidTitle, ".mp3")
-                        : nothingHere();
+                        ? !isDownloading
+                            ? downloadVideo(widget.result.vidInfo["dloadUrl"],
+                                widget.result.vidTitle, ".mp3")
+                            : API().nothingHere(context)
+                        : API().nothingHere(context);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

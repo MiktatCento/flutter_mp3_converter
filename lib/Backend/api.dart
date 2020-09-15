@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_mp3_converter/Models/resultModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:toast/toast.dart';
 
 class API {
   Result result;
@@ -37,5 +40,33 @@ class API {
     } else {
       throw Exception('Failed to load album');
     }
+  }
+
+  void nothingHere(context) {
+    print("Just Nothing");
+    Toast.show(
+      "Zaten indirildi",
+      context,
+      duration: 2,
+      backgroundColor: Colors.green,
+      textColor: Colors.black,
+      gravity: Toast.BOTTOM,
+    );
+  }
+
+  String printDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+  }
+
+  String formatBytes(int bytes, int decimals) {
+    if (bytes <= 0) return "0 B";
+    const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+    var i = (log(bytes) / log(1024)).floor();
+    return ((bytes / pow(1024, i)).toStringAsFixed(decimals)) +
+        ' ' +
+        suffixes[i];
   }
 }

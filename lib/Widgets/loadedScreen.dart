@@ -44,6 +44,7 @@ class _LoadedScreenState extends State<LoadedScreen> {
     Future<void> downloadVideo(
         String trackURL, String trackName, String format) async {
       try {
+        trackName = trackName.replaceAll(RegExp("/"), "");
         if (await PermissionsService().requestStoragePermission()) {
           setState(() {
             isDownloading = true;
@@ -51,11 +52,11 @@ class _LoadedScreenState extends State<LoadedScreen> {
             status = "İndiriliyor";
           });
           Dio dio = Dio();
-          var directory = _storageInfo.first.rootDir;
-          print("$directory/Music/" + trackName + format);
+          var directory = _storageInfo.first.rootDir + "/Music/";
+          print("$directory" + trackName + format);
           await dio.download(
             trackURL,
-            "$directory/" + trackName + format,
+            "$directory" + trackName + format,
             /*onReceiveProgress: (rec, total) {
           setState(() {
             print("$rec + " + " + $total");

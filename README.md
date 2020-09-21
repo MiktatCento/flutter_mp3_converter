@@ -1,16 +1,8 @@
-# flutter_mp3_converter
+# Youtube MP3 Çevirici
 
-A new Flutter project.
+Basit arayüzü ile linki yapıştırın, indirin!
 
-## Getting Started
+## İndirmek için
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Aşşağıdaki linkten işlemcinize uygun (çoğu cihaz V7A sürümüdür) APK dosyasını inidirip kurunuz:
+- [Klasöre gitmek için tıkla](https://github.com/MiktatCento/flutter_mp3_converter/tree/master/APK%20Files)

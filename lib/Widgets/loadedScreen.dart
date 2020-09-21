@@ -7,6 +7,8 @@ import 'package:flutter_mp3_converter/Service/permissionsService.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider_ex/path_provider_ex.dart';
 import 'package:toast/toast.dart';
+import 'package:audiotagger/audiotagger.dart';
+import 'package:audiotagger/models/tag.dart';
 
 class LoadedScreen extends StatefulWidget {
   final Result result;
@@ -44,6 +46,7 @@ class _LoadedScreenState extends State<LoadedScreen> {
   Widget build(BuildContext context) {
     Future<void> downloadVideo(
         String trackURL, String trackName, String format) async {
+      Audiotagger tagger = new Audiotagger();
       try {
         trackName = trackName.replaceAll(RegExp("/"), "");
         if (await PermissionsService().requestStoragePermission()) {
@@ -53,10 +56,10 @@ class _LoadedScreenState extends State<LoadedScreen> {
             status = "İndiriliyor";
           });
           Dio dio = Dio();
-          var directory = _storageInfo.first.rootDir + "/Music/";
-          print("$directory" + trackName + format);
-          await dio.download(trackURL, "$directory" + trackName + format,
-              onReceiveProgress: (rec, total) {
+          var directory = _storageInfo.first.rootDir + "/Müzikler/";
+          var path = "$directory" + trackName + format;
+          print(path);
+          await dio.download(trackURL, path, onReceiveProgress: (rec, total) {
             Toast.show(
               API().formatBytes(rec, 2),
               context,
@@ -66,6 +69,14 @@ class _LoadedScreenState extends State<LoadedScreen> {
               gravity: Toast.BOTTOM,
             );
           });
+          final tag = Tag(
+            artist: "IG: @miktat0",
+            album: "Youtube MP3 Çevirici", //This field will be reset
+          );
+          final result = await tagger.writeTags(
+            path: path,
+            tag: tag,
+          );
 
           setState(() {
             isDownloading = false;

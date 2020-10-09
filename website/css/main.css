@@ -1,0 +1,85 @@
+.header{
+  width: 100%;
+  text-align: center;
+  padding-top: 20px;
+  position: fixed;
+  background-color: #ffffff;
+  top: 0px;
+  left: 0px;
+  height: 70px;
+  border-bottom: 1px solid #777;
+}
+
+.header img{
+  width: 200px;
+}
+
+.dodoBox{
+background-color:white;
+width:91%;
+margin-top: 100px;
+padding-bottom: 50px;
+}
+
+.doguText{
+font-family:sans-serif;
+font-weight:400;
+letter-spacing:;
+color:#3d3d3d;
+font-size: 20px;
+}
+
+.doguText2{
+width:80%;
+color:#666;
+font-family:sans-serif;
+}
+
+#nick{
+  width: 230px;
+  font-size: 15px;
+  border: 1px solid #888;
+  background: #FAFAFA;
+  padding: 7px 0 7px 8px;
+  line-height: 18px;
+  border-radius: 4px;
+}
+
+#nick:hover{
+    border:2px solid #666;
+    border-radius: 5px;
+    width:310px;
+    max-width:80%;
+}
+
+.buton {
+  color:white;
+  background-color:#3897f0;
+  font-size:17px;
+
+  border-radius:5px;
+  outline:none;
+  font-family:sans-serif;
+  font-weight:540;
+  border:0;
+  width:180px;
+  height:30px;
+  font-weight:bold;
+}
+
+#menu {
+  width:91%;
+}
+
+#liste {
+  display:inline-block;
+}
+
+#link {
+  text-decoration:none;
+  color:#003569;
+  font-family:sans-serif;
+  font-size:13px;
+  font-weight:540;
+  vertical-align: baseline;
+}
